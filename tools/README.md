@@ -1,1 +1,9 @@
-© Anthropic PBC. All rights reserved. Use is subject to Anthropic's [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms).
+# Tools
+
+Repository-level developer and maintenance utilities.
+
+## Current groups
+
+- `devcontainer/` — container startup and development environment helpers
+
+Keep runtime plugin files outside this directory.
