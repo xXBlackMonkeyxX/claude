@@ -1,152 +1,82 @@
 <#
 .SYNOPSIS
-    Automates the setup and connection to a DevContainer environment using either Docker or Podman on Windows.
+    Starts the repository DevContainer with Docker or Podman and launches Claude Code.
 
 .DESCRIPTION
-    This script automates the process of initializing, starting, and connecting to a DevContainer
-    using either Docker or Podman as the container backend. It must be executed from the root
-    directory of your project and assumes the script is located in a 'Script' subdirectory.
-
-.PARAMETER Backend
-    Specifies the container backend to use. Valid values are 'docker' or 'podman'.
-
-.EXAMPLE
-    .\Script\run_devcontainer_claude_code.ps1 -Backend docker
-    Uses Docker as the container backend.
-
-.EXAMPLE
-    .\Script\run_devcontainer_claude_code.ps1 -Backend podman
-    Uses Podman as the container backend.
-
-.NOTES
-    Project Structure:
-    Project/
-    ├── .devcontainer/
-    └── Script/
-        └── run_devcontainer_claude_code.ps1
+    Runs from the repository root. The launcher uses the Dev Container CLI for
+    container discovery and execution instead of parsing backend-specific labels.
 #>
 
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)]
-    [ValidateSet('docker','podman')]
+    [Parameter(Mandatory = $true)]
+    [ValidateSet('docker', 'podman')]
     [string]$Backend
 )
 
-# Notify script start
-Write-Host "--- DevContainer Startup & Connection Script ---"
-Write-Host "Using backend: $($Backend)"
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
 
-# --- Prerequisite Check ---
-Write-Host "Checking for required commands..."
-try {
-    if (-not (Get-Command $Backend -ErrorAction SilentlyContinue)) {
-        throw "Required command '$($Backend)' not found."
-    }
-    Write-Host "- $($Backend) command found."
-    if (-not (Get-Command devcontainer -ErrorAction SilentlyContinue)) {
-        throw "Required command 'devcontainer' not found."
-    }
-    Write-Host "- devcontainer command found."
-}
-catch {
-    Write-Error "A required command is not installed or not in your PATH. $($_.Exception.Message)"
-    Write-Error "Please ensure both '$Backend' and 'devcontainer' are installed and accessible in your system's PATH."
-    exit 1
-}
-
-
-# --- Backend-Specific Initialization ---
-if ($Backend -eq 'podman') {
-    Write-Host "--- Podman Backend Initialization ---"
-
-    # --- Step 1a: Initialize Podman machine ---
-    Write-Host "Initializing Podman machine 'claudeVM'..."
-    try {
-        & podman machine init claudeVM
-        Write-Host "Podman machine 'claudeVM' initialized or already exists."
-    } catch {
-        Write-Error "Failed to initialize Podman machine: $($_.Exception.Message)"
-        exit 1 # Exit script on error
-    }
-
-    # --- Step 1b: Start Podman machine ---
-    Write-Host "Starting Podman machine 'claudeVM'..."
-    try {
-        & podman machine start claudeVM -q
-        Write-Host "Podman machine started or already running."
-    } catch {
-        Write-Error "Failed to start Podman machine: $($_.Exception.Message)"
-        exit 1
-    }
-
-    # --- Step 2: Set default connection ---
-    Write-Host "Setting default Podman connection to 'claudeVM'..."
-    try {
-        & podman system connection default claudeVM
-        Write-Host "Default connection set."
-    } catch {
-        Write-Warning "Failed to set default Podman connection (may be already set or machine issue): $($_.Exception.Message)"
-    }
-
-} elseif ($Backend -eq 'docker') {
-    Write-Host "--- Docker Backend Initialization ---"
-
-    # --- Step 1 & 2: Check Docker Desktop ---
-    Write-Host "Checking if Docker Desktop is running and docker command is available..."
-    try {
-        docker info | Out-Null
-        Write-Host "Docker Desktop (daemon) is running."
-    } catch {
-        Write-Error "Docker Desktop is not running or docker command not found."
-        Write-Error "Please ensure Docker Desktop is running."
-        exit 1
+function Require-Command([string]$Name) {
+    if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
+        throw "Required command '$Name' was not found in PATH."
     }
 }
 
-# --- Step 3: Bring up DevContainer ---
-Write-Host "Bringing up DevContainer in the current folder..."
-try {
-    $arguments = @('up', '--workspace-folder', '.')
-    if ($Backend -eq 'podman') {
-        $arguments += '--docker-path', 'podman'
+function Invoke-Checked([string]$Command, [string[]]$Arguments) {
+    & $Command @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "Command '$Command' failed with exit code $LASTEXITCODE."
     }
-    & devcontainer @arguments
-    Write-Host "DevContainer startup process completed."
-} catch {
-    Write-Error "Failed to bring up DevContainer: $($_.Exception.Message)"
-    exit 1
 }
 
-# --- Step 4: Get DevContainer ID ---
-Write-Host "Finding the DevContainer ID..."
-$currentFolder = (Get-Location).Path
-
-try {
-    $containerId = (& $Backend ps --filter "label=devcontainer.local_folder=$currentFolder" --format '{{.ID}}').Trim()
-} catch {
-    $displayCommand = "$Backend ps --filter `"label=devcontainer.local_folder=$currentFolder`" --format '{{.ID}}'"
-    Write-Error "Failed to get container ID (Command: $displayCommand): $($_.Exception.Message)"
-    exit 1
+$repoRoot = (Get-Location).Path
+$devcontainerPath = Join-Path $repoRoot '.devcontainer'
+if (-not (Test-Path -LiteralPath $devcontainerPath -PathType Container)) {
+    throw "No .devcontainer directory was found in '$repoRoot'. Run this script from the repository root."
 }
 
-if (-not $containerId) {
-    Write-Error "Could not find DevContainer ID for the current folder ('$currentFolder')."
-    Write-Error "Please check if 'devcontainer up' was successful and the container is running."
-    exit 1
-}
-Write-Host "Found container ID: $containerId"
+Write-Host '--- Salvorel DevContainer Launcher ---'
+Write-Host "Backend: $Backend"
+Write-Host "Workspace: $repoRoot"
 
-# --- Step 5 & 6: Execute command and enter interactive shell inside container ---
-Write-Host "Executing 'claude' command and then starting zsh session inside container $($containerId)..."
-try {
-    & $Backend exec -it $containerId zsh -c 'claude; exec zsh'
-    Write-Host "Interactive session ended."
-} catch {
-    $displayCommand = "$Backend exec -it $containerId zsh -c 'claude; exec zsh'"
-    Write-Error "Failed to execute command inside container (Command: $displayCommand): $($_.Exception.Message)"
-    exit 1
+Require-Command $Backend
+Require-Command 'devcontainer'
+
+$devcontainerArgs = @('up', '--workspace-folder', $repoRoot)
+$execArgs = @('exec', '--workspace-folder', $repoRoot)
+
+if ($Backend -eq 'docker') {
+    Write-Host 'Checking Docker daemon...'
+    Invoke-Checked 'docker' @('info')
+} else {
+    Require-Command 'podman'
+    Write-Host 'Checking Podman machine...'
+    $machineState = (& podman machine inspect claudeVM --format '{{.State}}' 2>$null)
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host 'Creating Podman machine claudeVM...'
+        Invoke-Checked 'podman' @('machine', 'init', 'claudeVM')
+        $machineState = 'stopped'
+    }
+
+    if ([string]$machineState -ne 'running') {
+        Write-Host 'Starting Podman machine claudeVM...'
+        Invoke-Checked 'podman' @('machine', 'start', 'claudeVM')
+    }
+
+    Invoke-Checked 'podman' @('system', 'connection', 'default', 'claudeVM')
+    $devcontainerArgs += @('--docker-path', 'podman')
+    $execArgs += @('--docker-path', 'podman')
 }
 
-# Notify script completion
-Write-Host "--- Script completed ---"
+Write-Host 'Starting DevContainer...'
+Invoke-Checked 'devcontainer' $devcontainerArgs
+
+Write-Host 'Launching Claude Code inside the DevContainer...'
+$execArgs += @('zsh', '-lc', 'claude; status=$?; exec zsh')
+& devcontainer @execArgs
+if ($LASTEXITCODE -ne 0) {
+    throw "DevContainer interactive session exited with code $LASTEXITCODE."
+}
+
+Write-Host '--- DevContainer session ended ---'
