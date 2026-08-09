@@ -31,8 +31,7 @@ A curated collection of Claude Code plugins, commands, agents, skills, and hooks
 │
 └── tools/                         # Repository-level tooling
     ├── devcontainer/
-    ├── validation/
-    └── maintenance/
+    └── validation/
 ```
 
 Plugins remain self-contained because their internal paths are part of their distribution contract. Repository-level tooling and documentation stay outside plugin runtime content.
@@ -85,7 +84,26 @@ or:
 .\tools\devcontainer\run_devcontainer.ps1 -Backend podman
 ```
 
-The former `Script/run_devcontainer_claude_code.ps1` remains as a compatibility wrapper so existing workflows do not break abruptly.
+The former `Script/run_devcontainer_claude_code.ps1` remains as a compatibility wrapper so existing workflows do not break abruptly. The maintained launcher now relies on the Dev Container CLI for execution rather than backend-specific container-label parsing.
+
+## Validation
+
+Repository validation is implemented in `tools/validation/validate-repository.ps1` and runs automatically through GitHub Actions for pushes and pull requests targeting `main`.
+
+The validation checks:
+
+1. Marketplace JSON syntax.
+2. Duplicate plugin names.
+3. Marketplace source paths.
+4. Required plugin README files.
+5. PowerShell parser errors.
+6. Committed generated or temporary artifacts.
+
+Run it locally from the repository root with:
+
+```powershell
+.\tools\validation\validate-repository.ps1
+```
 
 ## Maintenance baseline
 
