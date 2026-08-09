@@ -1,4 +1,9 @@
-<#[CmdletBinding()]
+<#
+.SYNOPSIS
+    Starts a DevContainer using Docker or Podman and opens a Claude Code shell.
+#>
+
+[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('docker', 'podman')]
@@ -31,7 +36,7 @@ function Invoke-Step {
     }
 }
 
-Write-Host "--- DevContainer startup ---"
+Write-Host '--- DevContainer startup ---'
 Write-Host "Backend: $Backend"
 
 Invoke-Step 'Check prerequisites' {
