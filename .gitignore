@@ -1,2 +1,8 @@
 .DS_Store
-
+Thumbs.db
+*.zip
+*.tmp
+*.log
+.env
+.env.*
+!.env.example
