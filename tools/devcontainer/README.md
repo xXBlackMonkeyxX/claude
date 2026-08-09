@@ -1,1 +1,15 @@
-© Anthropic PBC. All rights reserved. Use is subject to Anthropic's [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms).
+# DevContainer tooling
+
+Development-container launch helpers live here.
+
+## PowerShell
+
+```powershell
+.\tools\devcontainer\run_devcontainer.ps1 -Backend docker
+```
+
+or:
+
+```powershell
+.\tools\devcontainer\run_devcontainer.ps1 -Backend podman
+```
