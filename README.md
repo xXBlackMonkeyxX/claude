@@ -4,67 +4,45 @@ A curated collection of Claude Code plugins, commands, agents, skills, and hooks
 
 This repository is a maintained distribution/fork of plugin material and is **not an official Anthropic repository**. Original copyright and upstream attribution remain unchanged where applicable.
 
-## Included plugins
-
-| Plugin | Purpose |
-|---|---|
-| `agent-sdk-dev` | Build and validate Claude Agent SDK applications |
-| `claude-opus-4-5-migration` | Migrate prompts and code to newer Claude model versions |
-| `code-review` | Multi-agent pull-request review with confidence filtering |
-| `commit-commands` | Streamline Git commit, push, and PR workflows |
-| `explanatory-output-style` | Add educational implementation context |
-| `feature-dev` | Structured feature-development workflow |
-| `frontend-design` | Production-oriented frontend design guidance |
-| `hookify` | Create and manage custom safety/productivity hooks |
-| `learning-output-style` | Encourage active learning during implementation |
-| `plugin-dev` | Create and validate Claude Code plugins |
-| `pr-review-toolkit` | Specialized PR analysis for tests, errors, types, comments, and simplification |
-| `ralph-wiggum` | Iterative development loops |
-| `security-guidance` | Security-focused editing reminders |
-
-## Installation
-
-Install Claude Code first:
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-Start Claude Code from your project:
-
-```bash
-claude
-```
-
-The included marketplace definition is located at `claude-plugin/marketplace.json`.
-
 ## Repository layout
 
 ```text
 .
-├── agent-sdk-dev/
-├── claude-opus-4-5-migration/
-├── claude-plugin/
-├── code-review/
-├── commit-commands/
-├── explanatory-output-style/
-├── feature-dev/
-├── frontend-design/
-├── hookify/
-├── learning-output-style/
-├── plugin-dev/
-├── pr-review-toolkit/
-├── ralph-wiggum/
-├── security-guidance/
-└── Script/
+├── agent-sdk-dev/                 # Plugin package
+├── claude-opus-4-5-migration/     # Plugin package
+├── code-review/                   # Plugin package
+├── commit-commands/               # Plugin package
+├── explanatory-output-style/      # Plugin package
+├── feature-dev/                   # Plugin package
+├── frontend-design/               # Plugin package
+├── hookify/                       # Plugin package
+├── learning-output-style/         # Plugin package
+├── plugin-dev/                    # Plugin package
+├── pr-review-toolkit/             # Plugin package
+├── ralph-wiggum/                  # Plugin package
+├── security-guidance/             # Plugin package
+├── claude-plugin/                 # Marketplace metadata
+├── docs/                          # Architecture and documentation
+└── tools/                         # Developer tooling
+    └── devcontainer/              # DevContainer helpers
 ```
 
-Each plugin follows the Claude Code plugin conventions where applicable:
+Plugin packages remain self-contained. Repository-level documentation and developer tooling are separated from runtime plugin content.
+
+## Installation
+
+```bash
+npm install -g @anthropic-ai/claude-code
+claude
+```
+
+The marketplace definition is located at `claude-plugin/marketplace.json`.
+
+## Plugin structure
 
 ```text
 plugin-name/
-├── .claude-plugin/
-│   └── plugin.json
+├── .claude-plugin/plugin.json
 ├── commands/
 ├── agents/
 ├── skills/
@@ -73,18 +51,15 @@ plugin-name/
 └── README.md
 ```
 
-Only directories that are required by a plugin are present.
-
 ## Maintenance principles
 
-1. Keep plugin paths consistent with the repository layout.
-2. Prefer small, readable scripts over duplicated shell logic.
-3. Do not commit generated archives or build artifacts.
-4. Keep upstream copyright and licensing information intact.
-5. Validate JSON, Markdown, PowerShell, hooks, and plugin manifests before publishing changes.
+1. Keep plugin paths consistent with the distribution layout.
+2. Keep development tooling under `tools/`.
+3. Prefer small, readable scripts over duplicated shell logic.
+4. Do not commit generated archives or build artifacts.
+5. Preserve upstream copyright and licensing information.
+6. Validate JSON, Markdown, PowerShell, hooks, and plugin manifests before publishing changes.
 
-## Upstream and licensing
+## Licensing
 
-This repository contains material derived from Claude Code plugin work. See `LICENSE.md` for the applicable license and `SECURITY.md` for security reporting guidance.
-
-For current Claude Code documentation, use the official documentation at https://docs.claude.com/en/docs/claude-code/overview.
+See `LICENSE.md` for the applicable license and `SECURITY.md` for security reporting guidance.
