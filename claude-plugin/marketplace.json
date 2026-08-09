@@ -8,18 +8,107 @@
     "email": "kontakt@salvorel.de"
   },
   "plugins": [
-    {"name":"agent-sdk-dev","description":"Development kit for working with the Claude Agent SDK","source":"../agent-sdk-dev","category":"development"},
-    {"name":"claude-opus-4-5-migration","description":"Migrate code and prompts between supported Claude model versions","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../claude-opus-4-5-migration","category":"development"},
-    {"name":"code-review","description":"Automated pull-request review using specialized agents and confidence-based filtering","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../code-review","category":"productivity"},
-    {"name":"commit-commands","description":"Git workflow automation for commits, pushes, and pull requests","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../commit-commands","category":"productivity"},
-    {"name":"explanatory-output-style","description":"Educational context for implementation choices and codebase patterns","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../explanatory-output-style","category":"learning"},
-    {"name":"feature-dev","description":"Structured feature-development workflow for exploration, architecture, implementation, and review","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../feature-dev","category":"development"},
-    {"name":"frontend-design","description":"Production-oriented frontend design guidance with emphasis on distinctive interfaces","version":"1.1.0","author":{"name":"Salvorel Engineering"},"source":"../frontend-design","category":"development"},
-    {"name":"hookify","description":"Create custom hooks that prevent unwanted development behaviors","version":"0.1.0","author":{"name":"Salvorel Engineering"},"source":"../hookify","category":"productivity"},
-    {"name":"learning-output-style","description":"Interactive learning workflow that encourages meaningful implementation contributions","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../learning-output-style","category":"learning"},
-    {"name":"plugin-dev","description":"Toolkit for creating and validating Claude Code plugins","version":"0.1.0","author":{"name":"Salvorel Engineering"},"source":"../plugin-dev","category":"development"},
-    {"name":"pr-review-toolkit","description":"Specialized pull-request analysis for comments, tests, errors, types, code quality, and simplification","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../pr-review-toolkit","category":"productivity"},
-    {"name":"ralph-wiggum","description":"Iterative development loops for repeated task refinement","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../ralph-wiggum","category":"development"},
-    {"name":"security-guidance","description":"Security reminders for potentially unsafe code patterns during file editing","version":"1.0.0","author":{"name":"Salvorel Engineering"},"source":"../security-guidance","category":"security"}
+    {
+      "name": "agent-sdk-dev",
+      "description": "Development kit for working with the Claude Agent SDK",
+      "source": "../agent-sdk-dev",
+      "category": "development"
+    },
+    {
+      "name": "claude-opus-4-5-migration",
+      "description": "Migrate code and prompts between supported Claude model versions",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../claude-opus-4-5-migration",
+      "category": "development"
+    },
+    {
+      "name": "code-review",
+      "description": "Automated pull-request review using specialized agents and confidence-based filtering",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../code-review",
+      "category": "productivity"
+    },
+    {
+      "name": "commit-commands",
+      "description": "Git workflow automation for commits, pushes, and pull requests",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../commit-commands",
+      "category": "productivity"
+    },
+    {
+      "name": "explanatory-output-style",
+      "description": "Educational context for implementation choices and codebase patterns",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../explanatory-output-style",
+      "category": "learning"
+    },
+    {
+      "name": "feature-dev",
+      "description": "Structured feature-development workflow for exploration, architecture, implementation, and review",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../feature-dev",
+      "category": "development"
+    },
+    {
+      "name": "frontend-design",
+      "description": "Production-oriented frontend design guidance with emphasis on distinctive interfaces",
+      "version": "1.1.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../frontend-design",
+      "category": "development"
+    },
+    {
+      "name": "hookify",
+      "description": "Create custom hooks that prevent unwanted development behaviors",
+      "version": "0.1.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../hookify",
+      "category": "productivity"
+    },
+    {
+      "name": "learning-output-style",
+      "description": "Interactive learning workflow that encourages meaningful implementation contributions",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../learning-output-style",
+      "category": "learning"
+    },
+    {
+      "name": "plugin-dev",
+      "description": "Toolkit for creating and validating Claude Code plugins",
+      "version": "0.1.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../plugin-dev",
+      "category": "development"
+    },
+    {
+      "name": "pr-review-toolkit",
+      "description": "Specialized pull-request analysis for comments, tests, errors, types, code quality, and simplification",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../pr-review-toolkit",
+      "category": "productivity"
+    },
+    {
+      "name": "ralph-wiggum",
+      "description": "Iterative development loops for repeated task refinement",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../ralph-wiggum",
+      "category": "development"
+    },
+    {
+      "name": "security-guidance",
+      "description": "Security reminders for potentially unsafe code patterns during file editing",
+      "version": "1.0.0",
+      "author": { "name": "Salvorel Engineering" },
+      "source": "../security-guidance",
+      "category": "security"
+    }
   ]
 }
