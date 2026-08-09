@@ -8,25 +8,26 @@ This repository is a maintained distribution/fork of plugin material and is **no
 
 ```text
 .
-├── agent-sdk-dev/
-├── claude-opus-4-5-migration/
-├── code-review/
-├── commit-commands/
-├── explanatory-output-style/
-├── feature-dev/
-├── frontend-design/
-├── hookify/
-├── learning-output-style/
-├── plugin-dev/
-├── pr-review-toolkit/
-├── ralph-wiggum/
-├── security-guidance/
-├── claude-plugin/
-├── docs/
-└── tools/
+├── agent-sdk-dev/                 # Plugin package
+├── claude-opus-4-5-migration/     # Plugin package
+├── code-review/                   # Plugin package
+├── commit-commands/               # Plugin package
+├── explanatory-output-style/      # Plugin package
+├── feature-dev/                   # Plugin package
+├── frontend-design/               # Plugin package
+├── hookify/                       # Plugin package
+├── learning-output-style/         # Plugin package
+├── plugin-dev/                    # Plugin package
+├── pr-review-toolkit/             # Plugin package
+├── ralph-wiggum/                  # Plugin package
+├── security-guidance/             # Plugin package
+├── claude-plugin/                 # Marketplace metadata
+├── docs/                          # Architecture and documentation
+└── tools/                         # Developer tooling
+    └── devcontainer/              # DevContainer helpers
 ```
 
-Plugin packages remain self-contained. Repository-level documentation and developer tooling are separated from plugin runtime content.
+Plugin packages remain self-contained. Repository-level documentation and developer tooling are separated from runtime plugin content.
 
 ## Installation
 
